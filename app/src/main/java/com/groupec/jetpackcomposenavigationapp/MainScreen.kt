@@ -16,13 +16,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+addimport androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
-
+import androidx.navigation.compose.currentBackStackEntryAsState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavHostController) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    // val productId = rootNavBackStackEntry?.arguments?.getString("productId")
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -31,8 +37,9 @@ fun MainScreen(navController: NavHostController) {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
+                    val label = if (currentRoute == NavigationItem.Home.route) "Home" else "Login"
                     Text(
-                        "Centered Top App Bar",
+                        text = label,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -57,7 +64,7 @@ fun MainScreen(navController: NavHostController) {
         },
         content = {
             AppNavHost(Modifier.padding(it), navController)
-
         }
     )
+    println("toto2")
 }
